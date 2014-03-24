@@ -41,11 +41,11 @@ public class PushMenuCommand extends JemmyEventCommand {
         long commandInterval = ctx != null ? ctx.getPlayer().getCommandInterval() : 50;
         if (params.get(INDEXES) != null) {
             String indexesStr = coerceToString(params.get(INDEXES), ctx);
-            String[] indexesArray = indexesStr.split("[ |,]+");
+            String[] indexesArray = removeSpaces(indexesStr.split("[|,]+"));
             menuBar().clickMenu(commandInterval, convertToInt(indexesArray));
         } else if (params.get(PATH) != null) {
             String pathStr = coerceToString(params.get(PATH), ctx);
-            String[] pathArray = pathStr.split("[ |>]+");
+            String[] pathArray = removeSpaces(pathStr.split("[|>]+"));
             menuBar().clickMenu(commandInterval, pathArray);
         } else {
             throw new CommandExecutionException("Either indexes or path must be specified for push_menu");
@@ -56,6 +56,14 @@ public class PushMenuCommand extends JemmyEventCommand {
         int[] ret = new int[strings.length];
         for (int i = 0; i < strings.length; i++) {
             ret[i] = Integer.parseInt(strings[i]);
+        }
+        return ret;
+    }
+    
+    private String[] removeSpaces(String[] indexesArray) {
+        String[] ret = new String[indexesArray.length];
+        for (int i = 0; i < indexesArray.length; i++) {
+            ret[i] = indexesArray[i].trim();
         }
         return ret;
     }
