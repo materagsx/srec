@@ -38,14 +38,15 @@ public class PushMenuCommand extends JemmyEventCommand {
 
     @Override
     protected void runJemmy(ExecutionContext ctx, Map<String, Value> params) throws JemmyException {
+        long commandInterval = ctx != null ? ctx.getPlayer().getCommandInterval() : 50;
         if (params.get(INDEXES) != null) {
             String indexesStr = coerceToString(params.get(INDEXES), ctx);
             String[] indexesArray = indexesStr.split("[ |,]+");
-            menuBar().clickMenu(convertToInt(indexesArray));
+            menuBar().clickMenu(commandInterval, convertToInt(indexesArray));
         } else if (params.get(PATH) != null) {
             String pathStr = coerceToString(params.get(PATH), ctx);
             String[] pathArray = pathStr.split("[ |>]+");
-            menuBar().clickMenu(pathArray);
+            menuBar().clickMenu(commandInterval, pathArray);
         } else {
             throw new CommandExecutionException("Either indexes or path must be specified for push_menu");
         }

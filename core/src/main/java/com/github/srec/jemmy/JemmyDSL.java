@@ -1812,7 +1812,7 @@ public class JemmyDSL {
             this.component = component;
         }
 
-        public MenuBar clickMenu(int... indexes) {
+        public MenuBar clickMenu(long commandInterval, int... indexes) {
             if (indexes.length == 0) {
 				return this;
 			}
@@ -1831,11 +1831,11 @@ public class JemmyDSL {
                     texts[i] = menu.getText();
                 }
             }
-            clickMenu(texts);
+            clickMenu(commandInterval, texts);
             return this;
         }
 
-        public MenuBar clickMenu(String... texts) {
+        public MenuBar clickMenu(long commandInterval, String... texts) {
             if (texts.length == 0) {
 				return this;
 			}
@@ -1845,6 +1845,12 @@ public class JemmyDSL {
                 ComponentChooser chooser = new JMenuOperator.JMenuByLabelFinder(texts[i - 1], comparator);
                 JMenuOperator jmenu = new JMenuOperator(currentWindow().getComponent(), chooser);        
                 jmenu.showMenuItem(new String[]{text});
+                
+                try {
+                    Thread.sleep(commandInterval);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             String text = texts[texts.length - 1];
             ComponentChooser chooser = new JMenuItemOperator.JMenuItemByLabelFinder(text, comparator);
