@@ -11,7 +11,7 @@
 	<modules>
 		<module>core</module>
 		<module>hadoop</module>
-		<module>examples</module>
+		<!--<module>examples</module>-->
 	</modules>
 
 	<developers>
